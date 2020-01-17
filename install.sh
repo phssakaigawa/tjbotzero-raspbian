@@ -25,6 +25,10 @@ amixer -D hw:1 sset Mic 100%
 amixer -c 0 sset PCM 100% unmute
 set -e
 
+# Change Hostname
+sudo sh -c 'echo TJBotzero > /etc/hostname'
+sudo sed -i 's/raspberrypi/TJBotzero/g' /etc/hosts
+
 # Install Node-RED
 sudo apt-get install -y build-essential
 curl -L -O https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered
