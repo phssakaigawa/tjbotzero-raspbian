@@ -12,8 +12,11 @@
   - name: Update node-red-install
     shell: |
       yes "y" | bash /tmp/update-nodejs-and-nodered
+    register: node_red_install
+    failed_when: node_red_install.rc not in 0
 
   - name: Enable Node-RED service
+    become: yes
     systemd:
       name: nodered.service
       enabled: yes
