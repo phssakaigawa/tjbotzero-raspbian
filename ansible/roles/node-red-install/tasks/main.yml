@@ -1,0 +1,19 @@
+---
+  - name: Install build-essential
+    become: yes
+    apt:
+      name: build-essential
+
+  - name: download node-red-installer
+    get_url: url={{ node_red_installer }}
+             dest=/tmp force=True
+    register: node_red_installer
+
+  - name: Update node-red-install
+    shell: |
+      yes "y" | bash /tmp/update-nodejs-and-nodered
+
+  - name: Enable Node-RED service
+    systemd:
+      name: nodered.service
+      enabled: yes

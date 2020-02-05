@@ -1,0 +1,52 @@
+---
+  - name: is graphical currently active
+    command: systemctl is-active graphical.target
+    register: graphical
+
+  - name: Switch to graphical runlevel
+    command: systemctl isolate graphical.target
+    when: graphical.stdout != "active"
+
+  - name: is runned process chromium-browser
+    shell: "ps -elf | grep chromium-browser | grep -v grep | wc -l"
+    register: chromium
+
+  - name: Kill chromium to avoid swap
+    command: killall /usr/lib/chromium-browser/chromium-browser
+    when: chromium.stdout != "0"
+
+  - name: Set wifi country JP
+    become: yes
+    command: raspi-config nonint do_wifi_country JP
+
+  - name: Enable Camera
+    become: yes
+    command: raspi-config nonint do_camera 0
+
+  - name: Enable SSH
+    become: yes
+    command: raspi-config nonint do_ssh 0
+
+  - name: Enable VNC
+    become: yes
+    command: raspi-config nonint do_vnc 0
+
+  - name: Change Display Resolution
+    become: yes
+    command: raspi-config nonint do_resolution 2 16
+
+  - name: Enable Audio Output in GPIO 18 and 13
+    lineinfile:
+      dest=/boot/config.txt
+      line={{ item }}
+    with_items:
+      - 'dtoverlay=pwm-2chan,pin=18,func=2,pin2=13,func2=4'
+    become: yes
+
+  # - name: Set Audio Mic level
+  #   become: yes
+  #   command: "amixer -D hw:1 sset Mic 100%"
+
+  - name: Set Audio Speaker level
+    become: yes
+    shell: "amixer -c 0 sset PCM 100% unmute"

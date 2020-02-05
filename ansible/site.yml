@@ -1,0 +1,8 @@
+---
+- hosts: target_raspberrypi
+  remote_user: pi
+  roles:
+    - raspbian-update
+    - raspberry-pi-setup
+    - node-red-install
+    
