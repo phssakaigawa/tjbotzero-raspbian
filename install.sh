@@ -45,12 +45,13 @@ cd ~/.node-red
 
 # Install Node-RED nodes
 set +e
-sudo apt-get install -y npm
-sudo npm install -g npm
+# sudo apt-get install -y npm
+# sudo npm install -g npm
 hash -r
 set -e
-npm install node-red-node-pi-gpio
+# npm install node-red-node-pi-gpio
 npm install node-red-node-watson
+npm install node-red-contrib-ibm-watson-iot
 npm install node-red-contrib-cos
 npm install node-red-dashboard
 sudo apt-get install -y python-picamera python3-picamera
@@ -58,33 +59,36 @@ npm install node-red-contrib-camerapi
 npm install node-red-contrib-image-output
 sudo apt-get install -y libasound2-dev
 npm install node-red-contrib-speakerpi
-npm install node-red-contrib-play-audio
+# npm install node-red-contrib-play-audio
 npm install node-red-contrib-mic
 npm install node-red-node-base64
 sudo apt-get install -y libopencv-dev
 npm install node-red-contrib-opencv
 npm install node-red-contrib-cognitive-services
 npm install node-red-contrib-google-translate
-npm install node-red-contrib-cloud-vision-api
-npm install node-red-contrib-qrcode
+# npm install node-red-contrib-cloud-vision-api
+npm install node-red-contrib-google-vision-object-detection
+# npm install node-red-contrib-qrcode
 npm install node-red-contrib-model-asset-exchange
 npm install node-red-contrib-embedded-file
 npm install node-red-contrib-hostip
 npm install node-red-contrib-moment
 sudo apt-get install -y festival
-npm install node-red-contrib-openjtalk
-curl -L -O https://github.com/julius-speech/julius/archive/v4.5.zip
-unzip v4.5.zip
-cd julius-4.5
-./configure
-make
-sudo make install
-cd ..
-rm -fr julius-4.5
-rm v4.5.zip
-npm install node-red-contrib-julius
-cd node_modules/node-red-contrib-julius
-npm run build
+# npm install node-red-contrib-openjtalk
+yes "Y" |    sudo apt-get install open-jtalk
+sudo apt-get install open-jtalk-mecab-naist-jdic hts-voice-nitech-jp-atr503-m001
+# curl -L -O https://github.com/julius-speech/julius/archive/v4.5.zip
+# unzip v4.5.zip
+# cd julius-4.5
+# ./configure
+# make
+# sudo make install
+# cd ..
+# rm -fr julius-4.5
+# rm v4.5.zip
+# npm install node-red-contrib-julius
+# cd node_modules/node-red-contrib-julius
+# npm run build
 
 # Save sample Node-RED flow
 cd ~/.node-red
@@ -98,7 +102,6 @@ rm -fr @node-red messagecatalog_hiragana.zip
 
 # package.json refresh
 npm init -y 
-
 
 # change back runlevel for install
 sudo systemctl isolate graphical.target
